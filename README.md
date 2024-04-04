@@ -10,7 +10,7 @@ Check the above link and utilise the code for creating Tables and Answer the fol
 
 Then write a LinkedIn post saying what you have learnt or enjoyed and Make sure to tag @Steel Data and @Matthew Steel.
 
-1. How many pubs are located in each country??
+1. How many pubs are located in each country?
 2. What is the total sales amount for each pub, including the beverage price and quantity sold?
 3. Which pub has the highest average rating?
 4. What are the top 5 beverages by sales quantity across all pubs?
