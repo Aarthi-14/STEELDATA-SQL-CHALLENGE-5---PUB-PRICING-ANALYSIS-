@@ -1,5 +1,5 @@
 # STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-
-SQL Challenge 5 - Pub pricing analysis
+SQL Challenge 5 - Pub pricing analysis 
 SteelData SQL Challenge Link: https://www.steeldata.org.uk/sql5.html
 
 Introduction:
