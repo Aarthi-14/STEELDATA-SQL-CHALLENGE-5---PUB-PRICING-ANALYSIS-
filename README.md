@@ -1,23 +1,162 @@
-# STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-
-SQL Challenge 5 - Pub pricing analysis
-SteelData SQL Challenge Link: https://www.steeldata.org.uk/sql5.html
+# PUB PRICING ANALYSIS 
 
-Introduction:
-You are a Pricing Analyst working for a pub chain called 'Pubs "R" Us'
-You have been tasked with analysing the drinks prices and sales to gain a greater insight into how the pubs in your chain are performing.
+## Source:
+SteelData SQL Challenge-5 Link: https://www.steeldata.org.uk/sql5.html
 
-Check the above link and utilise the code for creating Tables and Answer the following questions.
+## Objective:
+As a Pricing Analyst, working for a pub chain called 'Pubs "R" Us',I have been tasked with analysing the drinks prices and sales to gain a greater insight into how the pubs in your chain are performing.
 
-Then write a LinkedIn post saying what you have learnt or enjoyed and Make sure to tag @Steel Data and @Matthew Steel.
-
+Exploratory Data Analysis:
 1. How many pubs are located in each country??
+```sql
+SELECT Country, 
+	   COUNT(*) as no_of_pubs
+FROM pubs
+group by country;
+```
+
 2. What is the total sales amount for each pub, including the beverage price and quantity sold?
-3. Which pub has the highest average rating?
+```sql
+with cte as (
+			SELECT p.*,
+			round((b.price_per_unit * s.quantity),2) as total_sales
+			FROM beverages b
+			join sales s using (beverage_id)
+			join pubs p using (pub_id)
+)
+select pub_id as Pub_id, 
+	   pub_name as Pub_name,
+sum(total_sales) as total_sales_amount
+from cte
+group by pub_id;
+```
+
+--3. Which pub has the highest average rating?
+```sql
+select pub_id, 
+	   pub_name, 
+       round(avg(rating),2) as average_rating
+from ratings r
+join pubs p using (pub_id)
+group by pub_id
+order by pub_id,avg(rating) desc
+limit 1;
+```
+
 4. What are the top 5 beverages by sales quantity across all pubs?
+```sql
+select distinct beverage_id,
+	   beverage_name,
+       sum(quantity) over (partition by beverage_id) as sales_quantity
+from sales s
+join beverages b using (beverage_id)
+order by sales_quantity desc, beverage_id
+limit 5;
+```
+
 5. How many sales transactions occurred on each date?
+```sql
+select  transaction_date,
+		count(*) as sales_transactions
+from sales
+group by transaction_date
+order by transaction_date asc;
+```
+
 6. Find the name of someone that had cocktails and which pub they had it in.
-7. What is the average price per unit for each category of beverages, excluding the category 'Spirit'?
+```sql
+WITH CocktailCTE AS (
+    SELECT r.customer_name, r.pub_id, p.pub_name
+    FROM ratings r
+    JOIN sales s USING (pub_id)
+    JOIN beverages b USING (beverage_id)
+    JOIN pubs p USING (pub_id)
+    WHERE b.category = 'Cocktail'
+)
+SELECT customer_name, pub_id, pub_name
+FROM CocktailCTE;
+```
+
+--7. What is the average price per unit for each category of beverages,
+--excluding the category 'Spirit'?
+```sql
+select category,
+       round(avg(price_per_unit),2) as average_price_per_unit
+       from beverages
+       where category <> "Spirit"
+       group by category;
+```
+
 8. Which pubs have a rating higher than the average rating of all pubs?
+```sql
+select pub_id,
+	   pub_name, 
+       round(avg(rating),2) as pub_rating
+from ratings r 
+join pubs p using (pub_id)
+group by pub_id
+having pub_rating > (select round(avg(rating),2) as avg_rating from ratings);
+```
+
 9. What is the running total of sales amount for each pub, ordered by the transaction date?
-10. For each country, what is the average price per unit of beverages in each category, and what is the overall average price per unit of beverages across all categories?
-11. For each pub, what is the percentage contribution of each category of beverages to the total sales amount, and what is the pub's overall sales amount?
+```sql
+select pub_id,
+	   pub_name,
+       transaction_date,
+       (s.quantity * b.price_per_unit) as sales_amount,
+       sum(s.quantity * b.price_per_unit) over(partition by pub_id order by transaction_date) as running_total
+from sales s
+join beverages b using (beverage_id)
+join pubs p using (pub_id)
+order by pub_id, transaction_date asc;
+```
+
+10. For each country, what is the average price per unit of beverages in each category, and what is the overall average price per unit of beverages 
+across all categories?
+```sql
+with cte1 as (
+	select country, category,
+		   round(avg(price_per_unit),2) as avg_price_per_unit
+	from sales s
+	join pubs p using (pub_id)
+	join beverages b using (beverage_id)
+	group by country,category),
+	cte2 as (
+	select country,
+		   round(avg(price_per_unit),2) as overall_average_of_all_categories
+	from sales s
+	join pubs p using (pub_id)
+	join beverages b using (beverage_id)
+	group by country
+)select cte2.country,
+		cte1.category,
+        cte1.avg_price_per_unit,
+        cte2.overall_average_of_all_categories
+from cte1
+join cte2 on cte1.country = cte2.country
+order by country,category;
+```
+
+11. For each pub, what is the percentage contribution of each category of 
+beverages to the total sales amount, and what is the pubs overall sales amount?
+```sql
+with overall_sales as (
+	select pub_id, pub_name,
+		   sum(b.price_per_unit * s.quantity) as overall_sales_amount
+	from sales s 
+	join beverages b using (beverage_id)
+	join pubs p using (pub_id)
+	group by pub_id),
+total_sales as (
+   select pub_id, category,
+		  sum(b.price_per_unit * s.quantity) as total_sales_by_cat
+   from sales s 
+   join beverages b using (beverage_id)
+   join pubs p using (pub_id)
+   group by pub_id,category
+) select t.pub_id, o.pub_name, t.category, t.total_sales_by_cat, o.overall_sales_amount,
+	round((t.total_sales_by_cat/o.overall_sales_amount)*100,2) as percentage_contribution
+ from overall_sales o
+ join total_sales t using (pub_id)
+ order by pub_id;
+```
