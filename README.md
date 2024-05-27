@@ -1,10 +1,10 @@
 # PUB PRICING ANALYSIS 
 
-## Source:
-SteelData SQL Challenge-5 Link: https://www.steeldata.org.uk/sql5.html
-
 ## Objective:
 As a Pricing Analyst, working for a pub chain called 'Pubs "R" Us',I have been tasked with analysing the drinks prices and sales to gain a greater insight into how the pubs in your chain are performing.
+
+## Source:
+SteelData SQL Challenge-5 Link: https://www.steeldata.org.uk/sql5.html
 
 ## Exploratory Data Analysis:
 1. How many pubs are located in each country??
