@@ -6,7 +6,7 @@ SteelData SQL Challenge-5 Link: https://www.steeldata.org.uk/sql5.html
 ## Objective:
 As a Pricing Analyst, working for a pub chain called 'Pubs "R" Us',I have been tasked with analysing the drinks prices and sales to gain a greater insight into how the pubs in your chain are performing.
 
-Exploratory Data Analysis:
+## Exploratory Data Analysis:
 1. How many pubs are located in each country??
 ```sql
 SELECT Country, 
@@ -14,6 +14,7 @@ SELECT Country,
 FROM pubs
 group by country;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/ce279665-a471-4c9c-85b2-2a9f45aa521c)
 
 2. What is the total sales amount for each pub, including the beverage price and quantity sold?
 ```sql
@@ -30,8 +31,9 @@ sum(total_sales) as total_sales_amount
 from cte
 group by pub_id;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/9cfaf297-23b0-4811-a26f-590055662bdc)
 
---3. Which pub has the highest average rating?
+3. Which pub has the highest average rating?
 ```sql
 select pub_id, 
 	   pub_name, 
@@ -42,6 +44,8 @@ group by pub_id
 order by pub_id,avg(rating) desc
 limit 1;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/7cbf571d-dbba-4b89-a3e1-207e2f0fa018)
+
 
 4. What are the top 5 beverages by sales quantity across all pubs?
 ```sql
@@ -53,6 +57,7 @@ join beverages b using (beverage_id)
 order by sales_quantity desc, beverage_id
 limit 5;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/b880571b-1794-485d-8e09-6357c77c73fb)
 
 5. How many sales transactions occurred on each date?
 ```sql
@@ -62,6 +67,7 @@ from sales
 group by transaction_date
 order by transaction_date asc;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/6de676d9-0361-4752-8218-4ec84c3a0f63)
 
 6. Find the name of someone that had cocktails and which pub they had it in.
 ```sql
@@ -76,8 +82,9 @@ WITH CocktailCTE AS (
 SELECT customer_name, pub_id, pub_name
 FROM CocktailCTE;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/446fe683-a376-45d6-b733-250f00070740)
 
---7. What is the average price per unit for each category of beverages,
+7. What is the average price per unit for each category of beverages,
 --excluding the category 'Spirit'?
 ```sql
 select category,
@@ -86,6 +93,7 @@ select category,
        where category <> "Spirit"
        group by category;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/25646b7c-c78c-4982-8d01-d333f3bcd00a)
 
 8. Which pubs have a rating higher than the average rating of all pubs?
 ```sql
@@ -97,6 +105,7 @@ join pubs p using (pub_id)
 group by pub_id
 having pub_rating > (select round(avg(rating),2) as avg_rating from ratings);
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/9ea8b615-44b1-4a62-979b-7d40d601ee23)
 
 9. What is the running total of sales amount for each pub, ordered by the transaction date?
 ```sql
@@ -110,6 +119,7 @@ join beverages b using (beverage_id)
 join pubs p using (pub_id)
 order by pub_id, transaction_date asc;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/8f6d5c57-0562-4814-b688-fce7b5e0c023)
 
 10. For each country, what is the average price per unit of beverages in each category, and what is the overall average price per unit of beverages 
 across all categories?
@@ -136,6 +146,7 @@ from cte1
 join cte2 on cte1.country = cte2.country
 order by country,category;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/2b3e56b8-9544-45a4-ab2d-6549bc1f4994)
 
 11. For each pub, what is the percentage contribution of each category of 
 beverages to the total sales amount, and what is the pubs overall sales amount?
@@ -160,3 +171,12 @@ total_sales as (
  join total_sales t using (pub_id)
  order by pub_id;
 ```
+![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/0829264e-06a2-449c-b2fd-245f0d325619)
+
+
+Key Insights:
+1.The Red Lion Pub located in London, has the highest average rating (4.67) of all pubs with highest Total Sales Amount of 532.66$
+2.The Dubliner Pub in Ireland, has the second highest average rating (4.6) of all Pubs yet has the Lowest Total sales Amount of 308.62$
+3.Among the Top 5 beverages across all Pubs, Guinness Beverage under Beer category ranked No. 1 and Mojito Beverage under Cocktail category ranked No.2 based on sales quantity.
+4.In Dubliner Pub, 53.37 % of total sales was contributed the Beverages under Beer category, which is the highest among % percentage contribution among all Pubs.
+
