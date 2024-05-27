@@ -15,7 +15,9 @@ FROM pubs
 group by country;
 ```
 ![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/ce279665-a471-4c9c-85b2-2a9f45aa521c)
-
+Insights/Findings:
+* UK, Ireland, US, spain are the countries that all has each pub in their country.
+  
 2. What is the total sales amount for each pub, including the beverage price and quantity sold?
 ```sql
 with cte as (
@@ -32,7 +34,9 @@ from cte
 group by pub_id;
 ```
 ![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/9cfaf297-23b0-4811-a26f-590055662bdc)
-
+Insights/Findings:
+* The Red Lion Pub has made the Highest Total sales of $532.66 & the Dubliner has made Lowest Sales of $308.
+  
 3. Which pub has the highest average rating?
 ```sql
 select pub_id, 
@@ -45,7 +49,8 @@ order by pub_id,avg(rating) desc
 limit 1;
 ```
 ![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/7cbf571d-dbba-4b89-a3e1-207e2f0fa018)
-
+Insights/Findings:
+* The Red Lion Pub has made the Highest Average Rating of 4.67
 
 4. What are the top 5 beverages by sales quantity across all pubs?
 ```sql
@@ -58,7 +63,9 @@ order by sales_quantity desc, beverage_id
 limit 5;
 ```
 ![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/b880571b-1794-485d-8e09-6357c77c73fb)
-
+Insights/Findings:
+* Guinness, Mojito, Chardonnay, Tequila & IPA are the Top Beverages in all Pubs.
+  
 5. How many sales transactions occurred on each date?
 ```sql
 select  transaction_date,
@@ -68,7 +75,9 @@ group by transaction_date
 order by transaction_date asc;
 ```
 ![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/6de676d9-0361-4752-8218-4ec84c3a0f63)
-
+Insights/Findings:
+* Maximum Sales Transactions occured is 5 on 09-05-2023.
+  
 6. Find the name of someone that had cocktails and which pub they had it in.
 ```sql
 WITH CocktailCTE AS (
@@ -94,6 +103,8 @@ select category,
        group by category;
 ```
 ![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/25646b7c-c78c-4982-8d01-d333f3bcd00a)
+Insights/Findings:
+* The average price per unit of Beer category is 5.49, cocktail of 8.99, Whiskey of 29.99 & Wine of 12.99 
 
 8. Which pubs have a rating higher than the average rating of all pubs?
 ```sql
@@ -106,7 +117,9 @@ group by pub_id
 having pub_rating > (select round(avg(rating),2) as avg_rating from ratings);
 ```
 ![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/9ea8b615-44b1-4a62-979b-7d40d601ee23)
-
+Insights/Findings:
+* The Red Lion Pub & La Cerveceria has the rating higher than the average rating of all pubs.
+  
 9. What is the running total of sales amount for each pub, ordered by the transaction date?
 ```sql
 select pub_id,
@@ -172,9 +185,10 @@ total_sales as (
  order by pub_id;
 ```
 ![image](https://github.com/Aarthi-14/STEELDATA-SQL-CHALLENGE-5---PUB-PRICING-ANALYSIS-/assets/147639053/0829264e-06a2-449c-b2fd-245f0d325619)
+Insights/Findings:
+* Beer category of the Dubliner Pub has contributed the highest Percentage of 53.37% among all other Beverages.
 
-
-Key Insights:
+## Key Insights:
 1.The Red Lion Pub located in London, has the highest average rating (4.67) of all pubs with highest Total Sales Amount of 532.66$
 2.The Dubliner Pub in Ireland, has the second highest average rating (4.6) of all Pubs yet has the Lowest Total sales Amount of 308.62$
 3.Among the Top 5 beverages across all Pubs, Guinness Beverage under Beer category ranked No. 1 and Mojito Beverage under Cocktail category ranked No.2 based on sales quantity.
