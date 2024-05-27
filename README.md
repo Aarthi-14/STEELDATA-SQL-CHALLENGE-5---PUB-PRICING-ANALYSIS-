@@ -190,7 +190,7 @@ Insights/Findings:
 
 ## Key Insights:
 1.The Red Lion Pub located in London, has the highest average rating (4.67) of all pubs with highest Total Sales Amount of 532.66$
-2.The Dubliner Pub in Ireland, has the second highest average rating (4.6) of all Pubs yet has the Lowest Total sales Amount of 308.62$
+2.The Dubliner Pub in Ireland, has the second highest average rating (4.6) of all Pubs yet has the Lowest Total sales Amount of 308.62$.
 3.Among the Top 5 beverages across all Pubs, Guinness Beverage under Beer category ranked No. 1 and Mojito Beverage under Cocktail category ranked No.2 based on sales quantity.
 4.In Dubliner Pub, 53.37 % of total sales was contributed the Beverages under Beer category, which is the highest among % percentage contribution among all Pubs.
 
